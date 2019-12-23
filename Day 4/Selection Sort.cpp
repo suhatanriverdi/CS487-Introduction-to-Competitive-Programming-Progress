@@ -2,6 +2,7 @@
 // Day #4
 // In every iteration of selection sort, the minimum element(considering ascending order) 
 // from the unsorted subarray is picked and moved to the sorted subarray.
+// Time ComplexityO(n^2)
 #include <iostream>    
 #include <vector>
 #include <algorithm>

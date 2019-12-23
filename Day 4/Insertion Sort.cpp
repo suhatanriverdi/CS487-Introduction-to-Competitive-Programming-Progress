@@ -1,5 +1,6 @@
 // Insertion Sort
 // Day #4
+// Time ComplexityO(n^2)
 #include <iostream>    
 #include <vector>
 #include <algorithm>
