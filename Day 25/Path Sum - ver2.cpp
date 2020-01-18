@@ -1,7 +1,5 @@
 ﻿// Question Link ---> https://leetcode.com/problems/path-sum/
-// Path Sum
 // Day #25
-
 class Solution {
 public:
     bool hasPathSum(TreeNode* root, int sum) {

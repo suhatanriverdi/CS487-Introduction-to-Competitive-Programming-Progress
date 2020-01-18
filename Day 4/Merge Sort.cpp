@@ -1,41 +1,50 @@
 ﻿// Merge Sort
-// The lower bound for Comparison based sorting algorithm (Merge Sort, Heap Sort, Quick-Sort .. etc) is Ω(nLogn), i.e., 
-// they cannot do better than nLogn.
 // Day #4
-#include <iostream>
+// Divide and conquer:
+// 1 - Let the first half of the array be sorted
+// 2 - Let the second half of the array be sorted
+// 3 - Let’s merge them together
+// Time ComplexityO(nlog(n)), Stable, NOT In-Place
+#include <iostream>    
 #include <vector>
+#include <algorithm>
 using namespace std;
 
-void mergeSort(vector<int> &vec, int size) {
-	if (size > 1) {
-		int mid = size / 2;
-		int L_size = mid;
-		int R_size = size - mid;
-		vector<int> L_arr(L_size);
-		vector<int> R_arr(R_size);
-		for (int l = 0; l < mid; l++) L_arr[l] = vec[l];
-		for (int r = mid; r < size; r++) R_arr[r - mid] = vec[r];
-		mergeSort(L_arr, L_size);
-		mergeSort(R_arr, R_size);
-		int L_idx = 0, R_idx = 0, total_idx = 0;
-		while (L_idx < L_size && R_idx < R_size) {
-			if (L_arr[L_idx] < R_arr[R_idx]) {
-				vec[total_idx++] = L_arr[L_idx++];
-			}
-			else vec[total_idx++] = R_arr[R_idx++];
+void merge(vector<int> &arr, int left, int mid, int right) {
+	vector<int> leftArr, rightArr;
+	for (int i = left; i <= mid; i++) {
+		leftArr.push_back(arr[i]);
+	}
+	for (int i = mid + 1; i <= right; i++) {
+		rightArr.push_back(arr[i]);
+	}
+	leftArr.push_back(INT_MAX);
+	rightArr.push_back(INT_MAX);
+	for (int i = left, tmpLeftIdx = 0, tmpRightIdx = 0; i <= right; i++) {
+		if (leftArr[tmpLeftIdx] <= rightArr[tmpRightIdx]) {
+			arr[i] = leftArr[tmpLeftIdx++];
 		}
-		while (L_idx < L_size) {
-			vec[total_idx++] = L_arr[L_idx++];
-		}
-		while (R_idx < R_size) {
-			vec[total_idx++] = R_arr[R_idx++];
+		else {
+			arr[i] = rightArr[tmpRightIdx++];
 		}
 	}
 }
 
+void mergeSort(vector<int> &arr, int left, int right) {
+	if (left < right) {
+		int mid = (left + right) / 2;
+		mergeSort(arr, left, mid);
+		mergeSort(arr, mid + 1, right);
+		merge(arr, left, mid, right);
+	}
+}
+
 int main(void) {
-	vector<int> vec = { 3, 2, 1, 4 };
-	mergeSort(vec, 4);
+	vector<int> numbers = { 3, 2, 1, 4 };
+	int left = 0, right = numbers.size() - 1;
+	mergeSort(numbers, left, right);
 	cout << "After Sorting: ";
-	for (auto i : vec) cout << i << " ";
+	for (auto elem : numbers) {
+		cout << elem << " ";
+	}
 }
