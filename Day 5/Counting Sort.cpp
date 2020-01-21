@@ -1,37 +1,41 @@
-﻿// Radix Sort
+﻿// Counting Sort
 // Day #5
-// Time Complexity θ(nk)
+// Counting sort is a linear time sorting algorithm
+// That sorts in O(n+k) time when elements are in range from 1 to k.
 #include <iostream>
 #include <vector>
-#include <list>
-#include <cmath>
 using namespace std;
 
-void radixSort(vector<int> &arr, int n, int max) {
-	int i, j, m, p = 1, index, temp, count = 0;
-	list<int> pocket[10]; //radix of decimal number is 10
-	for (i = 0; i < max; i++) {
-		m = pow(10, i + 1);
-		p = pow(10, i);
-		for (j = 0; j < n; j++) {
-			temp = arr[j] % m;
-			index = temp / p; //find index for pocket array
-			pocket[index].push_back(arr[j]);
-		}
-		count = 0;
-		for (j = 0; j < 10; j++) { //delete from linked lists and store to array
-			while (!pocket[j].empty()) {
-				arr[count] = *(pocket[j].begin());
-				pocket[j].erase(pocket[j].begin());
-				count++;
-			}
-		}
+void countingSort(vector<int>& unsortedArray, int range) {
+	vector<int> countArray(range + 1, 0); // Counting Array
+	// Store the count of each element
+	for (int i = 0; i < unsortedArray.size(); i++) {
+		countArray[unsortedArray[i]]++;
+	}
+	// Modify the count array by adding the previous counts
+	for (int i = 0; i + 1 < countArray.size(); i++) {
+		countArray[i + 1] = countArray[i] + countArray[i + 1];
+	}
+	// Since we have n inputs, we create an array with n places
+	// Corresponding values represent the places in the count array
+	// We place objects in their correct positions and decrease the count by one
+	vector<int> sortedArray(unsortedArray.size());
+	for (int i = 0; i < unsortedArray.size(); i++) {
+		sortedArray[countArray[unsortedArray[i]] - 1] = unsortedArray[i];
+		countArray[unsortedArray[i]]--;
+	}
+	// We move all elements in sortedArray into unsortedArray, to make unsrotedArray sorted
+	for (int i = 0; i < unsortedArray.size(); i++) {
+		unsortedArray[i] = sortedArray[i];
 	}
 }
 
 int main(void) {
-	vector<int> vec = { 3, 2, 1, 4 };
-	radixSort(vec, 4, 4);
+	vector<int> numbers = { 3, 2, 1, 4 };
+	countingSort(numbers, 4);
 	cout << "After Sorting: ";
-	for (auto i : vec) cout << i << " ";
+	for (auto number : numbers) {
+		cout << number << " ";
+	}
+	return 0;
 }
