@@ -3,15 +3,24 @@
 class Solution {
 public:
     vector<vector<int>> findSolution(CustomFunction &customfunction, int z) {
-        vector<vector<int>> posIntPairs;
+        vector<vector<int>> res;
         for (int i = 1; i <= 1000; i++) {
-            for (int j = 1; j <= 1000; j++) {
-                if (customfunction.f(i, j) == z) {
-                    posIntPairs.push_back({i, j});
+            int left = 1, right = 1000, mid;
+            while (left <= right) {
+                mid = (left + right) / 2;
+                int returnedVal = customfunction.f(i, mid);
+                if (returnedVal == z) {
+                    res.push_back({i, mid});
                     break;
                 }
-            }           
+                if (returnedVal > z) {
+                    right = mid - 1;
+                } 
+                else {
+                    left = mid + 1;
+                }
+            }
         }
-        return posIntPairs;
+        return res;
     }
 };
