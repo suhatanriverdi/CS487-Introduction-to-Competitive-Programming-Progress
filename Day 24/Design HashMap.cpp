@@ -5,7 +5,9 @@ public:
     int map[1000001]; // all elements -1
     /** Initialize your data structure here. */
     MyHashMap() {
-        fill(map.begin(), map.end(), -1);
+        for (int i = 0; i < 1000001; i++) {
+            map[i] = -1;
+        }
     }
     
     /** value will always be non-negative. */
