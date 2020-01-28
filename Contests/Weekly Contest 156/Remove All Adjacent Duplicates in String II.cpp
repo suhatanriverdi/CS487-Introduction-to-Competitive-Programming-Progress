@@ -2,9 +2,9 @@
 class Solution {
 public:
 	string removeDuplicates(string s, int k) {
-        if (k > s.size()) {
-            return s;
-        }
+		if (k > s.size()) {
+			return s;
+		}
 		string res = "";
 		int oldSize = s.size();
 		int newSize = remover(s, k);
